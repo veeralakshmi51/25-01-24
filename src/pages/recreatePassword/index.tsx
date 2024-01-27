@@ -69,11 +69,10 @@ const [confirmpass,setconfirmPass]=useState(false);
           height: "101%",
         }}
       >
-        <img
+        <img className="p-0"
           src={Image3}
-          // style={{ height: "-webkit-fill-available", marginRight: "-7px" }}
+          style={{ height: "-webkit-fill-available", marginRight: "-7px" }}
           alt="Image"
-          className="img-fluid"
         ></img>
       </div>
       <div className="col-md-5 d-flex flex-column align-items-md-center justify-content-md-center">

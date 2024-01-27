@@ -18,6 +18,10 @@ const Header = () => {
   const navigate = useNavigate();
   const isLoginPage = location.pathname === "/login";
   const isSecretKeyPage = location.pathname === "/secret-key";
+  const isChangePasswordPage = location.pathname === "/recreatePassword";
+  const isForgotPasswordPage = location.pathname === "/forgot-password";
+  const isVerifyOtp = location.pathname === "/verify-otp";
+  const isChangePassword = location.pathname === "/change-password";
   const { jwt, userType } = useSelector((state: any) => state.Login);
   const username = useSelector((state: any) => state.Login.userDetails);
 
@@ -25,7 +29,13 @@ const Header = () => {
   const showLogoImg = !isLoginPage && !isSecretKeyPage;
   const showAvatar = !isLoginPage && !isSecretKeyPage;
 
-  const showHeader = !isLoginPage && !isSecretKeyPage;
+  const showHeader =
+    !isLoginPage &&
+    !isSecretKeyPage &&
+    !isChangePasswordPage &&
+    !isForgotPasswordPage &&
+    !isVerifyOtp &&
+    !isChangePassword;
   const handleMenuOpen = () => {
     setOpen(!open);
   };
@@ -46,7 +56,7 @@ const Header = () => {
     }
   };
 
-  const DropDownItem=(props: any) =>{
+  const DropDownItem = (props: any) => {
     return (
       <li className="dropdownItem" onClick={props.onClick}>
         <img
@@ -62,11 +72,11 @@ const Header = () => {
         <a href={props.href}>{props.children}</a>
       </li>
     );
-  }
+  };
 
   return (
     <div
-      className={'row mHeader d-flex justify-content-center align-items-center'}
+      className={"row mHeader d-flex justify-content-center align-items-center"}
     >
       {showLogoImg && (
         <img
@@ -89,19 +99,22 @@ const Header = () => {
         </div>
       )} */}
       <div className="menu-container">
-        <div className='menu-trigger' onClick={()=>{
-          // e.stopPropagation();
-          setOpen(!open);
-          }}>
-          <img src={avatar} alt='avatar'></img>
+        <div
+          className="menu-trigger"
+          onClick={() => {
+            // e.stopPropagation();
+            setOpen(!open);
+          }}
+        >
+          <img src={avatar} alt="avatar"></img>
         </div>
         {/* <div className="menu-trigger" onClick={() => setOpen(!open)}>
           <img src={avatar} alt="avatar"></img>
         </div> */}
 
-        <div className={`dropdown-menu ${open ? "active" : "inactive"}`} >
-          <h4 style={{color:'green',textAlign:'center'}}>{username}</h4>
-          <p style={{color:'red',textAlign:'center'}}>{userType}</p>
+        <div className={`dropdown-menu ${open ? "active" : "inactive"}`}>
+          <h4 style={{ color: "green", textAlign: "center" }}>{username}</h4>
+          <p style={{ color: "red", textAlign: "center" }}>{userType}</p>
           <ul>
             {/* <DropdownItem img={<FaUserCircle/>}>My Profile</DropdownItem> */}
             {/* <DropdownItem img={<PasswordRounded />} href="/recreatePassword">
@@ -110,16 +123,18 @@ const Header = () => {
             <DropdownItem img={<Logout />} onClick={handleLogoutClick}>
               Logout
             </DropdownItem> */}
-              <li>
-              <a href="/recreatePassword"  style={{color:'darkblue'}}>
+            <li>
+              <a href="/recreatePassword" style={{ color: "darkblue" }}>
                 <Security />
                 Change Password
               </a>
             </li>
-            <li onClick={handleLogoutClick} style={{color:'darkblue',cursor:'pointer'}}>
-             <Logout />
+            <li
+              onClick={handleLogoutClick}
+              style={{ color: "darkblue", cursor: "pointer" }}
+            >
+              <Logout />
               Logout
-              
             </li>
           </ul>
         </div>
