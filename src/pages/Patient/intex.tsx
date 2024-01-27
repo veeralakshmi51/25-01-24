@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   getAllPatient,
   updatePatientDetails,
-  deletePatientDetails,
+  patientDischarge
 } from "../../slices/thunk";
 import { FaPlus, FaSearch,  } from "react-icons/fa";
 import Tooltip from '@mui/material/Tooltip';
@@ -19,6 +19,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/loader/Loader";
 import { toast } from "react-toastify";
+import Button from '@mui/material/Button';
 import "./patient.css";
 interface FormData {
   firstName: string;
@@ -123,12 +124,16 @@ const Patient: React.FC = () => {
     }));
   };
 
-   const handleDelete = async (username: string) => {
-    const confirmDelete = window.confirm("Are You Sure Do You Want To Delete?");
+  const handleDischarge = async (id: string) => {
+    const confirmDelete = window.confirm(
+      "Are You Sure Do You Want to Discharge?"
+    );
     if (confirmDelete) {
       try {
-        await dispatch(deletePatientDetails(username, organization));
-        toast.success("Patient Details Deleted Successfully");
+        await patientDischarge(dispatch, id, organization);
+        alert("Patient Discharged Successfully"); 
+        window.location.reload();
+        navigate("/patient-table");
       } catch {
         toast.error("Failed to Delete Patient Details");
       }
@@ -230,13 +235,20 @@ const Patient: React.FC = () => {
                 <td className="text-center">{patient.basicDetails[0].ssn}</td>
                 <td className="text-center">{patient.beaconDevice}</td>
                 <td className="text-center">{patient.assignedBed}</td>
-                <td className="text-center">
+                {/* <td className="text-center">
                   <FontAwesomeIcon
                     icon={faTrash}
                     className="text-danger"
-                    onClick={() => handleDelete(patient.username)}
+                    onClick={() => handleDischarge(patient.id)}
                     style={{ cursor: "pointer" }}
                   />
+                </td> */}
+                <td className="text-center">
+                  <Button
+                    onClick={() => handleDischarge(patient.id)}
+                   variant="contained" color="success">
+                    In Active
+                    </Button>
                 </td>
               </tr>
             ))}

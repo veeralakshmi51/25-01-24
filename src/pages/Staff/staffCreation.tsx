@@ -88,9 +88,33 @@ const Staff = () => {
     fetchDropdownData();
   }, []);
 
-  const handleSaveClick = async () => {
+  const handleSaveClick = async (e:React.FormEvent) => {
+    e.preventDefault();
+
+    console.log("Form:", formData);
+   if( !formData.firstName ||
+    !formData.middleName ||
+    !formData.lastName || 
+    !formData.dateofBirth ||
+    !formData.ssn ||
+    !formData.npi ||
+    !formData.addressLine1 ||
+    !formData.addressLine2 ||
+    !formData.city ||
+    //!formData.state ||
+    !formData.postalCode ||
+    !formData.phoneNumber ||
+    !formData.email 
+   // !formData.startDate ||
+   // !formData.userType
+   )
+    {
+      console.log("Validation failed - some fields are empty");
+      alert("Please Fill All The Fields");
+      return;
+    }
     console.log(organization)
-    // Construct the request body using form data and selected values
+
     const requestBody = {
         id:'',
       resource: [
@@ -135,12 +159,12 @@ const Staff = () => {
         // if(response.data.)
       // const responseData = await response.json();
       console.log('Save response:', response);
-      if (response.data.message.code === 'MHC - 0200') navigate('/staff-table')
-      alert('New Staff Registered successfully')
-      // Handle success or display error to the user
+      if (response.data.message.code === 'MHC - 0200') 
+     // alert('New Staff Registered successfully')
+    alert(response.data.message.description);
+    navigate('/staff-table')
     } catch (error) {
       console.error('Error saving data:', error);
-      // Handle error and display a message to the user
     }
   };
 
@@ -254,7 +278,9 @@ const Staff = () => {
     onChange={handleChange}
   >
         <MenuItem value={'Admin'}>Admin</MenuItem>
-        {/* <MenuItem value={'Admin'}>System Admin</MenuItem> */}
+        <MenuItem value={'Admin'}>System Admin</MenuItem>
+        <MenuItem value={'Admin'}>Super Admin</MenuItem>
+
     <MenuItem value={'Staff'}>Staff</MenuItem>
   </Select>
   </FormControl>

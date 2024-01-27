@@ -48,18 +48,37 @@ export const updatePatientDetails = (id: string, data: any, org: string) => asyn
   }
 };
 
-export const deletePatientDetails = (username:string,org: string) => async (dispatch: any) => {
+// export const deletePatientDetails = (username:string,org: string) => async (dispatch: any) => {
+//   dispatch(isLoading());
+//   try {
+//     const response = await axios.delete(`${baseURL}/patient/delete/${username}`);
+//     console.log('Delete Patient Details:', response.data);
+//     if (response.data.message.code === successCode) {
+//       getAllPatient(dispatch,org)
+//         } else {
+//       dispatch(setErrorMessage(response.data.message.description));
+//     }
+//   } catch (error) {
+//     dispatch(setIsLoadingFalse());
+//     console.log('API Error:', error);
+//   }
+// };
+
+
+export const patientDischarge = async (dispatch: any,id:string,org:string) => {
   dispatch(isLoading());
   try {
-    const response = await axios.delete(`${baseURL}/patient/delete/${username}`);
-    console.log('Delete Patient Details:', response.data);
+    const response = await axios.post(`${baseURL}/patient/discharge/${id}`);
+
     if (response.data.message.code === successCode) {
-      getAllPatient(dispatch,org)
-        } else {
+      dispatch(getPatientSuccess(response.data.data));
+      console.log(response.data.data)
+    } else {
       dispatch(setErrorMessage(response.data.message.description));
     }
   } catch (error) {
     dispatch(setIsLoadingFalse());
-    console.log('API Error:', error);
+    console.error(error);
   }
 };
+

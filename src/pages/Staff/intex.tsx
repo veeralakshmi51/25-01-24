@@ -75,7 +75,8 @@ const Staff: React.FC = () => {
     if (confirmDelete) {
       try {
         await dispatch(deleteStaffDetails(username, organization));
-        toast.success("Staff Details deleted successfully");
+        // toast.success("Staff Details deleted successfully");
+        alert('Staff Details Deleted Successfully')
       } catch (error) {
         toast.error("Failed to delete organization");
       }
@@ -166,7 +167,6 @@ const Staff: React.FC = () => {
                   <td>{staff.id}</td>
                   <td>{staff.userType}</td>
                   <td>{staff.role}</td>
-                  {/* <td>{staff.email}</td> */}
                   <td className="text-center">
                     <FontAwesomeIcon
                       icon={faTrash}

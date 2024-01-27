@@ -213,13 +213,10 @@ const StaffUpdation = () => {
         </div>
 
         <div className="row w-100 ">
-          <div className='col-md-4 mb-2'>
+          <div className='col-md-6 mb-2'>
             <TextField id="outlined-basic-1" label="City" variant="outlined" fullWidth onChange={handleChange} value={formData.city} name="city" />
           </div>
-          <div className='col-md-4 mb-2'>
-            <TextField id="outlined-basic-2" label="State/Provide" variant="outlined" fullWidth onChange={handleChange} value={formData.state} name="state" />
-          </div>
-          <div className='col-md-4 mb-2'>
+          <div className='col-md-6 mb-2'>
             <TextField id="outlined-basic-3" label="Zip/Postal Code" variant="outlined" fullWidth onChange={handleChange} value={formData.zip} name="zip" />
           </div>
         </div>

@@ -31,11 +31,20 @@ useEffect(()=>{
   }
 },[]);
  const handleRequest=async()=>{
+  if (!data.newPassword || !data.confirmNewPass) {
+    alert("Please fill all the fields");
+    return;
+  }
+  if (data.newPassword !== data.confirmNewPass) {
+    alert("Passwords do not match");
+    return;
+  }
   try{
     const response=await axios.post(`${baseURL}/user/reset-password`,data);
     console.log('Response:',response.data);
-   if(response.data.message && response.data.message.code === 'MHC - 0200')
+   if(response.status=== 200 && response.data.message && response.data.message.code === 'MHC - 0200')
    alert(response.data.message.description);
+   alert('Password Reset Successfully');
     navigate('/login');
   } catch(error){
     console.log('Error:',error)
