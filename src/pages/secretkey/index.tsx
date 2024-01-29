@@ -9,13 +9,14 @@ import Image1 from '../../assets/images/Image1.png';
 import { useSelector } from "react-redux";
 import { SecretKeyVerify }  from "../../slices/secretkey/thunk";
 import { useNavigate } from "react-router-dom";
+import { getOrganization } from "../../slices/thunk";
 
 const SecretKey = () => {
   const {jwt, userType } = useSelector((state: any) => state.Login);
   const navigate = useNavigate()
   const [secretKey, setSecretKey] = useState("");
   const otpInputsRef = useRef<HTMLInputElement[]>([]);
-
+  
   const handlePinChange = (index: number, value: string) => {
     const newSecretKey = secretKey.split("");
     newSecretKey[index] = value;
@@ -36,7 +37,12 @@ const SecretKey = () => {
       otpInputsRef.current[index - 1].focus();
     }
   };
-  
+
+  useEffect(() => {
+    if (otpInputsRef.current.length > 0) {
+      otpInputsRef.current[0].focus();
+    }
+  }, []);
 
   const handleBackspace = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace") {

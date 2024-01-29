@@ -22,10 +22,11 @@ const Header = () => {
   const isForgotPasswordPage = location.pathname === "/forgot-password";
   const isVerifyOtp = location.pathname === "/verify-otp";
   const isChangePassword = location.pathname === "/change-password";
+  const isResetSecretKey=location.pathname==='/resetSecretKey';
   const { jwt, userType } = useSelector((state: any) => state.Login);
   const username = useSelector((state: any) => state.Login.userDetails);
 
-  // Check if the current page is neither login nor secret-key
+
   const showLogoImg = !isLoginPage && !isSecretKeyPage;
   const showAvatar = !isLoginPage && !isSecretKeyPage;
 
@@ -35,13 +36,16 @@ const Header = () => {
     !isChangePasswordPage &&
     !isForgotPasswordPage &&
     !isVerifyOtp &&
-    !isChangePassword;
+    !isChangePassword&&
+    !isResetSecretKey
   const handleMenuOpen = () => {
     setOpen(!open);
   };
   if (!showHeader) {
     return null; // Do not render the header on login and secret-key pages
   }
+
+  
   const handleLogoutClick = () => {
     const confirmLogout = window.confirm("Are you sure you want to logout?");
 
@@ -115,6 +119,7 @@ const Header = () => {
         <div className={`dropdown-menu ${open ? "active" : "inactive"}`}>
           <h4 style={{ color: "green", textAlign: "center" }}>{username}</h4>
           <p style={{ color: "red", textAlign: "center" }}>{userType}</p>
+        
           <ul>
             {/* <DropdownItem img={<FaUserCircle/>}>My Profile</DropdownItem> */}
             {/* <DropdownItem img={<PasswordRounded />} href="/recreatePassword">

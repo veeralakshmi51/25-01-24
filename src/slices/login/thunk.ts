@@ -11,10 +11,14 @@ export const handleLogin = async (dispatch: any, body: any, navigate: (p: string
         console.log("Login response:", response);
                
         if (response.data.message.code === successCode) {
-            const { jwt, session, userType, organization } = response.data.data;
+            const { jwt, session, userType, organization} = response.data.data;
+            const userEmail=response.data.data.userDetail.email;
+            const username = session.username;
+            localStorage.setItem('userDetailEmail',userEmail);
+            localStorage.setItem('userDetailUsername', username);
             dispatch(saveLoginData(jwt.jwtToken));
             dispatch(saveUserType(userType[0]));
-            dispatch(saveUserDetails(session.username));
+            dispatch(saveUserDetails(username));
             dispatch(saveOrganization(organization));
             localStorage.setItem('jwtToken', jwt.jwtToken);
 

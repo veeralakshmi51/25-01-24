@@ -35,9 +35,22 @@ const [confirmpass,setconfirmPass]=useState(false);
       console.log("No Email found in local storage");
     }
   }, []);
+
+  useEffect(() => {
+    const savedUsername = localStorage.getItem("userDetailUsername");
+    if (savedUsername) {
+      setData((prevData) => ({ ...prevData, username: savedUsername }));
+    } else {
+      console.log("No username found in local storage");
+    }
+  }, []);
   const handleRequest = async () => {
     if (!data.newPassword || !data.confirmNewPassword || !data.username ||!data.oldPassword) {
       alert("Please fill the fields");
+      return;
+    } if(data.newPassword !== data.confirmNewPassword)
+    {
+      alert('New Password and Confirm Password Does not Match');
       return;
     }
     try {
@@ -55,20 +68,8 @@ const [confirmpass,setconfirmPass]=useState(false);
     }
   };
   return (
-    <div
-      className="p-grid passcode-section"
-      style={{ background: "#fff", width: "100%", height: "100%" }}
-    >
-      <div
-        className="p-col-12 p-md-7"
-        style={{
-          backgroundColor: "#fff",
-          display: "flex",
-          flexDirection: "column",
-          marginLeft: "-6px",
-          height: "101%",
-        }}
-      >
+    <div className="d-flex vh-100 ">
+    <div className="col-md-7 position-relative p-0">
         <img className="p-0"
           src={Image3}
           style={{ height: "-webkit-fill-available", marginRight: "-7px" }}
@@ -87,7 +88,7 @@ const [confirmpass,setconfirmPass]=useState(false);
               label="Username"
               variant="outlined"
               fullWidth
-              
+              disabled
               value={data.username}
               onChange={(e:any) =>
                 setData({ ...data, username: e.target.value })
@@ -132,7 +133,7 @@ const [confirmpass,setconfirmPass]=useState(false);
                 setData({ ...data, newPassword: e.target.value })
               }
               InputProps={{
-                startAdornment: (<InputAdornment position="start"><Security style={{ color: 'skyblue' }} /></InputAdornment>),
+                startAdornment: (<InputAdornment position="start"><Password style={{ color: 'skyblue' }} /></InputAdornment>),
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={() => setNewpass(!newpass)} edge="end">
@@ -153,7 +154,7 @@ const [confirmpass,setconfirmPass]=useState(false);
                 setData({ ...data, confirmNewPassword: e.target.value })
               }
               InputProps={{
-                startAdornment: (<InputAdornment position="start"><Security style={{ color: 'skyblue' }} /></InputAdornment>),
+                startAdornment: (<InputAdornment position="start"><Lock style={{ color: 'skyblue' }} /></InputAdornment>),
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={() => setconfirmPass(!confirmpass)} edge="end">

@@ -104,7 +104,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [orgName, setOrgName] = useState("");
-  const usernameInputRef = useRef<HTMLInputElement | null>(null); // Ref for username input
+  const usernameInputRef = useRef<HTMLInputElement | null>(null); 
   const { organization: modalOrganizations } = useSelector(
     (state: any) => state.Access
   );
