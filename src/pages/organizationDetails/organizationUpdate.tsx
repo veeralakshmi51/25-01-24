@@ -32,6 +32,7 @@ const OrganizationUpdate = () => {
   const navigate = useNavigate();
   const params = useParams();
   const location = useLocation();
+  const currentPage=location.state?.currentPage ||1;
   const { organizationDetails } = useSelector(
     (state: any) => state.Organization
   );
@@ -140,7 +141,7 @@ const OrganizationUpdate = () => {
     dispatch(updateOrganizationDetails(params?.id, updatedFields));
     console.log("After Upadate", updatedFields);
     alert("Organization Details Updated Successfully");
-    navigate("/organization-details");
+    navigate("/organization-details",{state:{currentPage}});
   };
   return (
     <div className="row w-100" >

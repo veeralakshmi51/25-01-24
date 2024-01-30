@@ -34,12 +34,32 @@ const Organization: React.FC = () => {
   const totalPages = Math.ceil(organizationDetails.length / itemsPerPage);
   const lastIndex = currentPage * itemsPerPage;
   const firstIndex = lastIndex - itemsPerPage;
-  const records = organizationDetails.slice(firstIndex, lastIndex);
-  const numbers = [...Array(totalPages).keys()].map((num) => num + 1);
+  const [filteredRecords, setFilteredRecords] = useState<any[]>([]);
+  const records = filteredRecords.slice(firstIndex, lastIndex);
+  const numbers = [...Array(Math.ceil(filteredRecords.length / itemsPerPage)).keys()].map((num) => num + 1);
 
   useEffect(() => {
     dispatch(getAllOrganizationDetails());
   }, [dispatch]);
+
+ useEffect(()=>{
+  setCurrentPage(1);
+ },[organizationDetails]);
+
+  // useEffect(()=>{
+  //   setCurrentPage(totalPages);
+  // },[organizationDetails,totalPages]);
+  
+  useEffect(() => {
+    const filteredData = organizationDetails.filter((organization: any) =>
+      organization.organizationdetails?.[0]?.name
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+      organization.organizationdetails?.[0]?.type.toLowerCase().includes(search.toLowerCase()) ||
+      organization.hippaprivacyofficer[0]?.name.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredRecords(filteredData);
+  }, [search, organizationDetails]);
 
   function prevPage() {
     if (currentPage > 1) {
@@ -47,11 +67,15 @@ const Organization: React.FC = () => {
     }
   }
 
+  function handleUpdate(organizationId:string){
+    navigate(`/organization-update/${organizationId}`, { state: { currentPage } });
+  }
   function changecurrentpage(page: number) {
     setCurrentPage(page);
   }
 
   function nextPage() {
+    const totalPages = Math.ceil(filteredRecords.length / itemsPerPage);
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
@@ -146,16 +170,16 @@ const Organization: React.FC = () => {
             </thead>
             <tbody>
               {records
-                .filter((organization: any) =>
-                  organization.organizationdetails?.[0]?.name
-                    .toLowerCase()
-                    .includes(search.toLowerCase()) ||
-                  organization.organizationdetails?.[0]?.type.toLowerCase().includes(search.toLowerCase()) ||
-                  organization.hippaprivacyofficer[0]?.name.toLowerCase().includes(search.toLowerCase())
-                )
+                // .filter((organization: any) =>
+                //   organization.organizationdetails?.[0]?.name
+                //     .toLowerCase()
+                //     .includes(search.toLowerCase()) ||
+                //   organization.organizationdetails?.[0]?.type.toLowerCase().includes(search.toLowerCase()) ||
+                //   organization.hippaprivacyofficer[0]?.name.toLowerCase().includes(search.toLowerCase())
+                // )
                 .map((organization: any, index: number) => (
                   <tr key={index}>
-                    <td>{index + 1}</td>
+                    <td>{firstIndex+index + 1}</td>
                     <td
                       style={{ cursor: "pointer" }}
                       onClick={() =>

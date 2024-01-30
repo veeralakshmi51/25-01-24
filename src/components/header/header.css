@@ -67,6 +67,7 @@ z-index:100;
 }
 
 .dropdown-menu.active {
+
 display: block;
 }
 .dropdown-menu::before{

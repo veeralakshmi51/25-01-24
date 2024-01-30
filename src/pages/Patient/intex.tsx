@@ -51,6 +51,10 @@ const Patient: React.FC = () => {
   const navigate = useNavigate();
   const itemsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const [filteredRecords,setFilteredRecords]=useState<any[]>([]);
+  const currentPatientData= filteredRecords.slice(indexOfFirstItem,indexOfLastItem);
   const [formData, setFormData] = useState<FormData>({
     id:'',
     firstName: "",
@@ -73,15 +77,27 @@ const Patient: React.FC = () => {
   useEffect(() => {
     getAllPatient(dispatch, organization);
   }, [dispatch, organization]);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentPatientData =
-    patientData && patientData?.slice(indexOfFirstItem, indexOfLastItem);
+
+ useEffect(()=>{
+  setCurrentPage(1);
+ },[patientData])
+
+useEffect(()=>{
+  const filteredPatientData=patientData.filter(
+    (patient: any) =>
+      (patient.basicDetails?.[0]?.name?.[0]?.given?.toLowerCase() || '').includes(search.toLowerCase()) ||
+      (patient.basicDetails?.[0]?.name?.[0]?.family?.toLowerCase() || '').includes(search.toLowerCase()) ||
+      (patient.basicDetails?.[0]?.birthDate?.toString().toLowerCase() || '').includes(search.toLowerCase()) ||
+      (patient.basicDetails?.[0]?.ssn?.toString().toLowerCase() || "").includes(search.toLowerCase()) ||  
+      (patient.beaconDevice?.toLowerCase()||'').includes(search.toLowerCase())
+      
+  );
+  setFilteredRecords(filteredPatientData);
+},[search,patientData]);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   const renderPageNumbers = () => {
     const totalPages = Math.ceil(patientData.length / itemsPerPage);
-
     const pageNumbersToShow = Math.min(5, totalPages);
 
     let startPage: number;
@@ -105,6 +121,7 @@ const Patient: React.FC = () => {
       }
     }
 
+  
     return Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
       <Pagination.Item
         key={startPage + index}
@@ -189,8 +206,8 @@ const Patient: React.FC = () => {
           </Pagination>
         </div>
       </div>
-      <Table responsive bordered>
-        <thead>
+      <Table responsive bordered >
+        <thead >
           <tr>
             <th scope="col" className="text-center">S.No</th>
             <th scope="col" className="text-center">Patient Name</th>
@@ -203,24 +220,18 @@ const Patient: React.FC = () => {
         </thead>
         <tbody>
           {currentPatientData
-            .filter((patient: any) =>
-              patient.basicDetails[0].name[0].given
-                .toLowerCase()
-                .includes(search.toLowerCase()) ||
-              patient.basicDetails[0].birthDate
-                .toString()
-                .toLowerCase()
-                .includes(search.toLowerCase()) ||
-              patient.basicDetails[0].ssn
-                .toString()
-                .toLowerCase()
-                .includes(search.toLowerCase()) ||
-              patient.beaconDevice.toLowerCase().includes(search.toLowerCase()) ||
-              patient.email.toLowerCase().includes(search.toLowerCase())
-            )
+            // .filter(
+            //     (patient: any) =>
+            //       (patient.basicDetails?.[0]?.name?.[0]?.given?.toLowerCase() || '').includes(search.toLowerCase()) ||
+            //       (patient.basicDetails?.[0]?.name?.[0]?.family?.toLowerCase() || '').includes(search.toLowerCase()) ||
+            //       (patient.basicDetails?.[0]?.birthDate?.toString().toLowerCase() || '').includes(search.toLowerCase()) ||
+            //       (patient.basicDetails?.[0]?.ssn?.toString().toLowerCase() || "").includes(search.toLowerCase()) ||  
+            //       (patient.beaconDevice?.toLowerCase()||'').includes(search.toLowerCase())
+                  
+            //   )
             .map((patient: any, index: number) => (
               <tr key={index}>
-                <td className="text-center">{index + 1}</td>
+                <td className="text-center">{indexOfFirstItem+index + 1}</td>
                 <td
                   className="text"
                   style={{ cursor: "pointer" }}

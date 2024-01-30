@@ -22,20 +22,46 @@ const Staff: React.FC = () => {
   const navigate = useNavigate();
   const itemsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
-
+  const totalPages=Math.ceil(staffData.length/itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const [filteredRecords,setFilteredRecords]=useState<any[]>([]);
+  const currentStaffData = filteredRecords.slice(indexOfFirstItem,indexOfLastItem);
+  //const numbers = [...Array(Math.ceil(filteredRecords.length / itemsPerPage)).keys()].map((num) => num + 1);
+  
+  
   useEffect(() => {
     getAllStaff(dispatch, organization);
   }, [dispatch, organization]);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentStaffData = staffData && staffData?.slice(indexOfFirstItem, indexOfLastItem);
+ useEffect(()=>{
+  setCurrentPage(1)
+ },[staffData]);
+
+//  useEffect(()=>{
+//   setCurrentPage(totalPages);
+//  },[staffData,totalPages]);
+
+ useEffect(() => {
+  const filteredStaffData = staffData.filter(
+    (staff: any) =>
+      (staff.name?.[0]?.given?.toLowerCase() || '').includes(search.toLowerCase()) ||
+      (staff.name?.[0]?.family?.toLowerCase() || '').includes(search.toLowerCase()) ||
+      (staff.dateofBirth?.toString()?.includes(search.toLowerCase()) || '') ||
+      (staff.ssn?.toLowerCase()?.includes(search.toLowerCase()) || '') ||
+      (staff.email?.toLowerCase()?.includes(search.toLowerCase()) || '') ||
+      (staff.role?.toLowerCase()?.includes(search.toLowerCase()) || '') ||
+      (staff.userType?.toLowerCase()?.includes(search.toLowerCase()) || '')
+  );
+  setFilteredRecords(filteredStaffData); 
+}, [search, staffData]);
+
+  
+  //const currentStaffData = staffData && staffData?.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   const renderPageNumbers = () => {
-    const totalPages = Math.ceil(staffData.length / itemsPerPage);
 
-    // Define the number of page numbers to show
     const pageNumbersToShow = Math.min(5, totalPages);
 
     let startPage: any;
@@ -59,6 +85,7 @@ const Staff: React.FC = () => {
       }
     }
 
+    
     return Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
       <Pagination.Item
         key={startPage + index}
@@ -146,17 +173,17 @@ const Staff: React.FC = () => {
           </thead>
           <tbody>
             {currentStaffData
-              .filter(
-                (staff: any) =>
-                  (staff.name?.[0]?.given?.toLowerCase() || '').includes(search.toLowerCase()) ||
-                  (staff.dateofBirth?.toString()?.includes(search.toLowerCase()) || '') ||
-                  (staff.ssn?.toLowerCase()?.includes(search.toLowerCase()) || '') ||
-                  (staff.email?.toLowerCase()?.includes(search.toLowerCase()) || '') ||
-                  (staff.role?.toLowerCase()?.includes(search.toLowerCase()) || '') ||
-                  (staff.userType?.toLowerCase()?.includes(search.toLowerCase()) || '')
-              )
+              // .filter(
+              //   (staff: any) =>
+              //     (staff.name?.[0]?.given?.toLowerCase() || '').includes(search.toLowerCase()) ||
+              //     (staff.dateofBirth?.toString()?.includes(search.toLowerCase()) || '') ||
+              //     (staff.ssn?.toLowerCase()?.includes(search.toLowerCase()) || '') ||
+              //     (staff.email?.toLowerCase()?.includes(search.toLowerCase()) || '') ||
+              //     (staff.role?.toLowerCase()?.includes(search.toLowerCase()) || '') ||
+              //     (staff.userType?.toLowerCase()?.includes(search.toLowerCase()) || '')
+              // )
               .map((staff: any, index: number) => (
-                <tr key={index}>
+                <tr key={indexOfFirstItem + index + 1}>
                   <td>{index + 1}</td>
                   <td
                     style={{ cursor: "pointer" }}

@@ -92,7 +92,8 @@ const Staff = () => {
     e.preventDefault();
 
     console.log("Form:", formData);
-   if( !formData.firstName ||
+   if( 
+    !formData.firstName ||
     !formData.middleName ||
     !formData.lastName || 
     !formData.dateofBirth ||
@@ -101,12 +102,12 @@ const Staff = () => {
     !formData.addressLine1 ||
     !formData.addressLine2 ||
     !formData.city ||
-    //!formData.state ||
+    !formData.state ||
     !formData.postalCode ||
     !formData.phoneNumber ||
-    !formData.email 
-   // !formData.startDate ||
-   // !formData.userType
+    !formData.email ||
+    !formData.startDate ||
+     !formData.userType
    )
     {
       console.log("Validation failed - some fields are empty");
@@ -259,7 +260,7 @@ const Staff = () => {
       <TextField id="outlined-basic-1" label="Email" variant="outlined" fullWidth onChange={(e) => setFormData({ ...formData, email: e.target.value })}/>
     </div>   
     <div className='col-md-4 mb-2'>
-      <TextField id="outlined-basic-1" label="SSN" variant="outlined" fullWidth onChange={(e) => setFormData({ ...formData, ssn: e.target.value })}/>
+      <TextField id="outlined-basic-1" label="SSN" variant="outlined" fullWidth inputProps={{maxLength:9,pattern:'[0-9]*',inputMode:'numeric'}} onChange={(e) => setFormData({ ...formData, ssn: e.target.value })}/>
     </div>
     <div className='col-md-4 mb-2'>
       <TextField id="outlined-basic-2" label="NPI#" variant="outlined" fullWidth onChange={(e) => setFormData({ ...formData, npi: e.target.value })}/>

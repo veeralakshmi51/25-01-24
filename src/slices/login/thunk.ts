@@ -11,8 +11,8 @@ export const handleLogin = async (dispatch: any, body: any, navigate: (p: string
         console.log("Login response:", response);
                
         if (response.data.message.code === successCode) {
-            const { jwt, session, userType, organization} = response.data.data;
-            const userEmail=response.data.data.userDetail.email;
+            const { jwt, session, userType, organization,userDetail} = response.data.data;
+            const userEmail=userDetail ? userDetail.email:null;
             const username = session.username;
             localStorage.setItem('userDetailEmail',userEmail);
             localStorage.setItem('userDetailUsername', username);

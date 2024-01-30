@@ -73,7 +73,7 @@ const Header = () => {
             transition: "var(--speed)",
           }}
         ></img>
-        <a href={props.href}>{props.children}</a>
+        <a href={props.href} >{props.children}</a>
       </li>
     );
   };

@@ -103,7 +103,11 @@ const PatientCreation: React.FC = () => {
     e.preventDefault();
 
     console.log("Form values:", formValues);
-
+    // if (formValues.ssn.length !== 9) {
+    //   console.log("Validation failed - SSN should be exactly 9 digits");
+    //   alert("SSN should be exactly 9 digits");
+    //   return;
+    // }
     if (
       !formValues.firstName ||
       !formValues.middleName ||
@@ -123,7 +127,7 @@ const PatientCreation: React.FC = () => {
       alert("Please Fill All The Fields");
       return;
     }
-    console.log('Org',organization)
+    console.log("Org", organization);
     const requestBody = {
       id: "",
       active: "",
@@ -585,9 +589,14 @@ const PatientCreation: React.FC = () => {
               label="SSN"
               variant="outlined"
               fullWidth
-              onChange={(e) =>
-                setFormValues({ ...formValues, ssn: e.target.value })
-              }
+              inputProps={{
+                maxLength: 9,
+                pattern: "[0-9]*", 
+                inputMode:'numeric'
+              }}
+              onChange={(e) => {
+                setFormValues({ ...formValues, ssn: e.target.value });
+              }}
             />
           </div>
           <div className="col-md-6 mb-2">
