@@ -30,7 +30,7 @@ interface FormData {
   organization: string;
 }
 const StaffUpdation = () => {
-
+  const [updatedItemId, setUpdatedItemId] = useState<string | null>(null);
   const navigate = useNavigate();
   const params = useParams();
   const location = useLocation();
@@ -145,10 +145,13 @@ const StaffUpdation = () => {
 
     };
     console.log("Before Update:", staffData)
+    const currentPage = new URLSearchParams(location.search).get("page") || 1;
     dispatch(updateStaffDetails(params?.id, updatedStaffFields, organization));
+    setUpdatedItemId(params?.id);
     console.log('After Update:', updatedStaffFields);
+    window.scrollTo({top:0,behavior:'smooth'});
     alert('Staff Details Updated Successfully');
-    navigate('/staff-table');
+    navigate(`/staff-table?page=${currentPage}`,{replace:true});
   };
 
   useEffect(() => {

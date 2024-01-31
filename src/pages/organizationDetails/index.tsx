@@ -46,9 +46,9 @@ const Organization: React.FC = () => {
   setCurrentPage(1);
  },[organizationDetails]);
 
-  // useEffect(()=>{
-  //   setCurrentPage(totalPages);
-  // },[organizationDetails,totalPages]);
+  useEffect(()=>{
+    setCurrentPage(totalPages);
+  },[organizationDetails,totalPages]);
   
   useEffect(() => {
     const filteredData = organizationDetails.filter((organization: any) =>
@@ -67,11 +67,10 @@ const Organization: React.FC = () => {
     }
   }
 
-  function handleUpdate(organizationId:string){
-    navigate(`/organization-update/${organizationId}`, { state: { currentPage } });
-  }
+ 
   function changecurrentpage(page: number) {
     setCurrentPage(page);
+    navigate(`/organization-details?page${page}`)
   }
 
   function nextPage() {

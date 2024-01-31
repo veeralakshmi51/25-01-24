@@ -54,6 +54,7 @@ const Patient: React.FC = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const [filteredRecords,setFilteredRecords]=useState<any[]>([]);
+  const totalPages = Math.ceil(patientData.length / itemsPerPage);
   const currentPatientData= filteredRecords.slice(indexOfFirstItem,indexOfLastItem);
   const [formData, setFormData] = useState<FormData>({
     id:'',
@@ -80,7 +81,12 @@ const Patient: React.FC = () => {
 
  useEffect(()=>{
   setCurrentPage(1);
- },[patientData])
+  setCurrentPage(totalPages)
+ },[patientData,totalPages])
+
+ useEffect(()=>{
+  setCurrentPage(totalPages)
+ },[totalPages])
 
 useEffect(()=>{
   const filteredPatientData=patientData.filter(
@@ -95,9 +101,11 @@ useEffect(()=>{
   setFilteredRecords(filteredPatientData);
 },[search,patientData]);
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+const paginate = (pageNumber: number) => {
+  setCurrentPage(pageNumber);
+  navigate(`?page=${pageNumber}`);
+};
   const renderPageNumbers = () => {
-    const totalPages = Math.ceil(patientData.length / itemsPerPage);
     const pageNumbersToShow = Math.min(5, totalPages);
 
     let startPage: number;

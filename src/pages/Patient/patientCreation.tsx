@@ -441,7 +441,7 @@ const PatientCreation: React.FC = () => {
       ) {
         alert(response.data.message.description);
 
-        navigate("/patient-table");
+        navigate("/patient-table/");
       } else {
         console.log("Request : ", requestBody);
         console.log("Error Registering:", response.data.message);

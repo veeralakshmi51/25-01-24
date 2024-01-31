@@ -189,7 +189,7 @@ const handleClick=(selectSensor:any)=>{
       </div>
       <Modal isOpen={editModal} toggle={() => setEditModal(false)} centered>
           <ModalHeader toggle={() => setEditModal(false)}>
-            Staff Details
+            Beacon Details
           </ModalHeader>
           <ModalBody>
             <div>

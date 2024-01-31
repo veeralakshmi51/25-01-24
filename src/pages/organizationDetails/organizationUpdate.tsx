@@ -141,7 +141,7 @@ const OrganizationUpdate = () => {
     dispatch(updateOrganizationDetails(params?.id, updatedFields));
     console.log("After Upadate", updatedFields);
     alert("Organization Details Updated Successfully");
-    navigate("/organization-details",{state:{currentPage}});
+    navigate(`/organization-details?page=${currentPage}`);
   };
   return (
     <div className="row w-100" >

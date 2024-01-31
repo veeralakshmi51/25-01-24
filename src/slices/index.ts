@@ -9,7 +9,7 @@ import OrganizationDetailsReducer from './organizationDetails/reducer'
 import OrganizationReducer from './organization/reducer'
 import BedAssignReducer from './bedAssign/reducer'
 import PatientAssignReducer from './patientAssign/reducer'
-
+import paginationReducer from './paginationSlice/paginationSlice'
 const rootReducer = combineReducers({
   Login: LoginReducer,
   PSConfig: PSConfigReducer,
@@ -21,6 +21,8 @@ const rootReducer = combineReducers({
   Organization:OrganizationDetailsReducer,
   BedAssign:BedAssignReducer,
   PatientAssign:PatientAssignReducer,
+  Pagination:paginationReducer
+  
 })
 
 export default rootReducer
