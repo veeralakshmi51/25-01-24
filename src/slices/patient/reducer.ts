@@ -8,12 +8,14 @@ interface PatientDetailsState{
   patientData: Patient[],
   isOpen: boolean,
   errorMsg: string,
+  currentPage:number,
 }
  const initialState :PatientDetailsState={
   loading: false,
   patientData: [],
   isOpen: false,
   errorMsg: "",
+  currentPage:1,
 };
 
 const PatientCreationSlice = createSlice({
@@ -42,7 +44,9 @@ const PatientCreationSlice = createSlice({
       state.loading = false;
       state.patientData = action.payload;
     },
-    
+    setCurrentPage(state, action: PayloadAction<number>) {
+      state.currentPage = action.payload;
+    },
   },
 });
 
@@ -52,7 +56,7 @@ export const {
   setErrorMessage,
   closeErrorPopup,
   getPatientSuccess,
-  
+  setCurrentPage
 
 } = PatientCreationSlice.actions;
 

@@ -32,7 +32,7 @@ const OrganizationUpdate = () => {
   const navigate = useNavigate();
   const params = useParams();
   const location = useLocation();
-  const currentPage=location.state?.currentPage ||1;
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const { organizationDetails } = useSelector(
     (state: any) => state.Organization
   );
@@ -79,7 +79,10 @@ const OrganizationUpdate = () => {
         state: location.state?.contact && location.state.contact[0]?.state || "",
         country: location.state?.contact && location.state.contact[0]?.country || "",
         zip: location.state?.contact && location.state.contact[0]?.zip || "",
+        
       });
+      setCurrentPage(location.state.currentPage || 1);
+
     }
   }, [location.state]);
 
@@ -141,7 +144,7 @@ const OrganizationUpdate = () => {
     dispatch(updateOrganizationDetails(params?.id, updatedFields));
     console.log("After Upadate", updatedFields);
     alert("Organization Details Updated Successfully");
-    navigate(`/organization-details?page=${currentPage}`);
+    navigate(`/organization-details?page=${currentPage}`,{state:{currentPage}});
   };
   return (
     <div className="row w-100" >

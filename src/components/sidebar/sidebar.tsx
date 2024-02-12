@@ -295,7 +295,7 @@ const Sidebar = (props: SidebarProps) => {
           onClick={() => handleSubMenuClick(index)}
           className="link"
         >
-          <div className="icon">{item.icon}</div>
+          <div className="icon" title={item.name}>{item.icon}</div>
           <div
             style={{ display: isOpen ? "block" : "none" }}
             className="link_text"
@@ -305,7 +305,7 @@ const Sidebar = (props: SidebarProps) => {
         </div>
       ) : (
         <NavLink to={item.path} key={index}  className="link">
-          <div className="icon">{item.icon}</div>
+          <div className="icon" title={item.name}>{item.icon}</div>
           <div
             style={{ display: isOpen ? "block" : "none" }}
             className="link_text"
@@ -325,7 +325,7 @@ const Sidebar = (props: SidebarProps) => {
                 key={subIndex}
                 className="link"
               >
-                <div className="icon" style={{ marginLeft: isOpen ? "15%":"-37%",display:isOpen ?"":'flex' }}>
+                <div className="icon" title={subItem.name}style={{ marginLeft: isOpen ? "15%":"-37%",display:isOpen ?"":'flex' }}>
                   <span style={{position:'relative',top:'-8px'}}>{isOpen? "" : "→"}</span>{subItem.icon}
                 </div>
                 <div className="link_text">{subItem.name}</div>

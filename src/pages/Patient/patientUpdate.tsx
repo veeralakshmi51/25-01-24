@@ -33,6 +33,7 @@ const PatientUpdation = () => {
   const navigate = useNavigate();
   const location=useLocation();
   const params = useParams()
+  const [currentPage,setCurrentPage]=useState<number>(1);
 const {state:patient}=location;
   const [formData, setFormData] = useState<FormData>({
     id:"",
@@ -77,7 +78,9 @@ const {state:patient}=location;
         active:location.state?.active||"",
         organization:location.state?.organization||"",
 
-      })
+      });
+      setCurrentPage(location.state.currentPage||1);
+
     }
   },[location.state])
   const dispatch = useDispatch<any>();
@@ -146,7 +149,7 @@ const {state:patient}=location;
 
     console.log("After Update:", updatedPatientFields);
     alert('Patient Details Updated Successfully');
-    navigate('/patient-table')
+    navigate(`/patient-table?page=${currentPage}`,{state:{currentPage}})
   };
   return(
 

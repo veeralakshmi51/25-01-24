@@ -8,6 +8,7 @@ import { faCheck, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaSearch } from "react-icons/fa";
+import { useRef } from "react";
 
 interface FormData {
   organizationName: string;
@@ -37,7 +38,7 @@ const Organization: React.FC = () => {
   const [filteredRecords, setFilteredRecords] = useState<any[]>([]);
   const records = filteredRecords.slice(firstIndex, lastIndex);
   const numbers = [...Array(Math.ceil(filteredRecords.length / itemsPerPage)).keys()].map((num) => num + 1);
-
+  const paginationRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     dispatch(getAllOrganizationDetails());
   }, [dispatch]);
@@ -69,10 +70,15 @@ const Organization: React.FC = () => {
 
  
   function changecurrentpage(page: number) {
-    setCurrentPage(page);
-    navigate(`/organization-details?page${page}`)
+    if (page !== currentPage) {
+      setCurrentPage(page);
+      const hash = window.location.hash;
+      navigate(`/organization-details?page=${page}${hash}`, { replace: true });
+    }
   }
-
+  
+  
+  
   function nextPage() {
     const totalPages = Math.ceil(filteredRecords.length / itemsPerPage);
     if (currentPage < totalPages) {
@@ -125,7 +131,7 @@ const Organization: React.FC = () => {
                   <FaSearch className="search-icon" />
                 </div>
               </div>
-              <div className="pagination-container">
+              <div className="pagination-container" ref={paginationRef}>
                 <nav className="d-flex">
                   <ul className="pagination">
                     <li className="page-item">
@@ -158,7 +164,7 @@ const Organization: React.FC = () => {
           <table className="table table-bordered">
             <thead>
               <tr>
-                <th scope="col" className="text-center">S.No #</th>
+                <th scope="col" className="text-center">S.No </th>
                 <th scope="col" className="text-center">Organization Name</th>
                 <th scope="col" className="text-center">Organization Type</th>
                 <th scope="col" className="text-center">Proximity</th>
@@ -182,7 +188,7 @@ const Organization: React.FC = () => {
                     <td
                       style={{ cursor: "pointer" }}
                       onClick={() =>
-                        navigate(`/organization-update/${organization.id}`, { state: organization })
+                        navigate(`/organization-update/${organization.id}`, { state:{...organization,currentPage} })
                       }
                     >
                       {organization.organizationdetails?.[0]?.name || ""}

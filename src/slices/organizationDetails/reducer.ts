@@ -10,12 +10,14 @@ interface OrganizationDetailsState {
   loading: boolean;
   organizationDetails: Organization[];
   errorMsg: string;
+  currentPage:number;
 }
 
 const initialState: OrganizationDetailsState = {
   loading: false,
   organizationDetails: [],
   errorMsg: "",
+  currentPage:1,
 };
 
 export const organizationDetailsSlice = createSlice({
@@ -58,8 +60,10 @@ export const organizationDetailsSlice = createSlice({
     
       state.organizationDetails = updatedDetails;
     },
-    
-    
+    setCurrentPage(state, action: PayloadAction<number>) {
+      state.currentPage = action.payload;
+    },
+     
   },
 });
 
@@ -69,7 +73,8 @@ export const {
   getOrganizationDetailsSuccess,
   setErrorMessage,
   deleteOrganizationDetails,
-  updateOrganizationDetails
+  updateOrganizationDetails,
+  setCurrentPage
 } = organizationDetailsSlice.actions;
 
 export default organizationDetailsSlice.reducer;

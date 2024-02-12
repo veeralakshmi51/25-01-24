@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { isLoading, setErrorMessage, setIsLoadingFalse, getPatientSuccess } from './reducer';
+import { isLoading, setErrorMessage, setIsLoadingFalse, getPatientSuccess,setCurrentPage } from './reducer';
 
 const baseURL = 'http://47.32.254.89:7000/api';
 const successCode = 'MHC - 0200';

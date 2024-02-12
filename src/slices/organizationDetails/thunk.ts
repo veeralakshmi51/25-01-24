@@ -22,7 +22,7 @@
 // }
 
 import axios from "axios";
-import { getOrganizationDetailsSuccess,isLoading,setIsLoadingFalse,setErrorMessage } from "./reducer";
+import { getOrganizationDetailsSuccess,isLoading,setIsLoadingFalse,setErrorMessage,setCurrentPage} from "./reducer";
 
 const baseURL = 'http://47.32.254.89:7000/api'
 const successCode = 'MHC - 0200'
@@ -52,7 +52,10 @@ console.log("Data to be sent:", data);
     const response= await axios.put(`${baseURL}/org/update/${id}`, data);
     console.log("Update API Response:",data);
     if (response.data.message.code === successCode) {
-      dispatch(getAllOrganizationDetails()); 
+      const updatedOrganizationDetails = response.data.data;
+      await dispatch(getAllOrganizationDetails());
+      dispatch(setCurrentPage(updatedOrganizationDetails.page)); 
+      dispatch(setErrorMessage(""))
     } else {
       dispatch(setErrorMessage(response.data.message.description));
     }
